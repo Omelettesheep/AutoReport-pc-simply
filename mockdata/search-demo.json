@@ -1,0 +1,32 @@
+{
+  "code": 0,
+  "msg": "",
+  "result": [
+    {
+      "firmName": "一汽大众",
+      "modelList":[
+        {
+            "name":"奥迪",
+            "id":"aodi"
+        },
+        {
+          "name":"奥拓",
+          "id":"aotuo"
+        }
+      ]
+    },
+    {
+      "firmName": "二汽大众",
+      "modelList":[
+        {
+            "name":"奥特闷",
+            "id":"automan"
+        },
+        {
+          "name":"奥飞利浦",
+          "id":"aofeilopu"
+        }
+      ]
+    }
+  ]
+}
