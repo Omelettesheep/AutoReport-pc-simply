@@ -791,7 +791,9 @@ $('.panel-cancel').on('click', function() {
 
 //配置上方菜单栏
 $('.content').headerPlugin({
-    systemName: '易车 Auto Report PC平台'
+    systemName: '易车 Auto Report PC平台',
+    showUser:true,
+    userid:93109
 });
 
 //配置左侧菜单栏
@@ -820,6 +822,10 @@ $('.generate-report').on('click', function() {
     }
     else
     {
+        $('.report-show-list').html('')
+        $('.report-show-list').append('暂无数据');
+        $('.report-show').show();
+        return;
         result.type = 2;
         result.column = column;
         result.page = page;
@@ -846,7 +852,7 @@ $('.generate-report').on('click', function() {
     })
 
     //把result用ajax发送给后台
-    $('.report-show').toggle();
+    $('.report-show').show();
 })
 
 

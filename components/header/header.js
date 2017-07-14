@@ -5,7 +5,14 @@
 
 	var defaults = {
 		defaultIcon:'glyphicon glyphicon-tasks',
-		userid:93109,
+		userid:(function(){
+			if(window.localStorage){
+				return window.localStorage.getItem('misUserId')||''
+			}
+			else{
+				return 93109
+			}
+		})(),
 		userName:(function(){
 			if(window.localStorage){
 				return window.localStorage.getItem('misUserName')||'未登录'
