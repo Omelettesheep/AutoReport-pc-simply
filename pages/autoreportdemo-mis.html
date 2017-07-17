@@ -822,13 +822,17 @@ $('.generate-report').on('click', function() {
     }
     else
     {
-        $('.report-show-list').html('')
-        $('.report-show-list').append('暂无数据');
-        $('.report-show').show();
-        return;
         result.type = 2;
         result.column = column;
         result.page = page;
+        $('.report-show-list').html('')
+        $('.table-report').html('')
+        $('.report-preview').hide();
+        $('.report-show-list').append('暂无数据');
+
+        $('.report-show').show();
+        return;
+       
     }
      
     console.log(result);
