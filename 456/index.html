@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- <script src='https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js'></script> -->
+    <!-- <script src='../js/jquery.min.js'></script> -->
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="static/css/common.css" type="text/css">
+    <link rel="stylesheet" href="static/css/bootstrap-datetimepicker.min.css" type="text/css">
+    <script src="static/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="static/js/dateRange.js"></script>
+    <link rel="stylesheet" type="text/css" href="static/css/dateRange.css">
+    <link rel="stylesheet" type="text/css" href="static/css/report.css"> 
+</head>
+<style>
+    .wrapper{
+        background-color: white;
+    }
+    .content{
+       
+        background-color: white;
+        margin:auto;
+
+    }
+    .login{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 66px;
+        width: 700px;
+        height: 300px;
+        border: 1px solid #ddd;
+        background-color: #eee;
+        border-radius: 5px;
+        box-shadow: 5px #ddd;
+        margin: 0 auto;
+        margin-top: 90px;
+    }
+
+    input[type="text"],input[type="password"]{
+        width: 300px;
+    }
+
+
+    /*.login .form-group-btn{
+        text-align: center;
+    }*/
+    button{
+        width: 60%;
+        /*margin-left: -10px;*/
+    }
+</style>
+<body>
+    <div class="wrapper">
+        <div class="content">
+            <div class="login">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="username" class="col-sm-2 control-label">域账号</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="username" placeholder="域账号">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-sm-2 control-label">密码</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="password" placeholder="密码">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" id="remember" checked> Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-btn">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">Sign in</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+
+<script src='static/components/header/header.js'></script>
+<script>
+
+(function($){
+     if(window.localStorage){
+        var storage = window.localStorage;
+        $('#username').val(storage.getItem('misUserName'));
+        $('#password').val(storage.getItem('misPassword'))
+    }
+    $('.content').headerPlugin({
+        systemName: '易车 Auto Report PC平台',
+        margin:'0px'
+    });
+    var margin = $('.main-header').css('margin-left');
+    $('.content').css('margin-left',margin);
+
+    $('form').on('submit',function(e){
+        e.preventDefault();
+        var userName = $('#username').val();
+        var password = $('#password').val();
+        if(username ==''||password==""){
+            alert('用户名或密码不能为空')
+        }
+        else{
+            var formdata = new FormData();
+            formdata.append('type',0);
+            formdata.append('user',userName);
+            formdata.append('password',password);
+            console.log(userName,password)
+            console.log(formdata);
+            // console.log(sendData);
+            $.ajax({
+                type: 'POST',
+                url:'/shiro/api/user/login',
+                data: formdata,
+                contentType: false, 
+                processData: false,
+                success:function(data){
+                    console.log(data);
+                    var result = data.result;
+                    if(data.code==0){
+                      var name = result.name;
+                      var id = result.userId;
+                      window.name =JSON.stringify({'name':name,'id':id});
+                      if(window.localStorage){
+                        var storage = window.localStorage;
+                      }
+                      if($('#remember').is(':checked')){
+                          if(storage){
+                            storage.setItem("misUserName",userName);
+                            storage.setItem("misPassword",password);
+                          }
+                      }else{
+                          if(storage)
+                            storage.clear();
+                      }
+                      
+                      window.location.href = 'static/pages/autoreportdemo-mis.html'
+                    }
+                    else{
+                      alert(data.msg);
+                    }
+                },
+                error:function(error){
+                    alert('连接服务器失败')
+                    console.log(error)
+                }
+
+            })
+
+        }
+        
+    })
+})(jQuery);
+
+   
+</script>
+</html>

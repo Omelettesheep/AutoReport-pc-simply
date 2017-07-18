@@ -134,7 +134,7 @@
                                                 </label>
                                             </div>
                                             
-                                        </div>
+                                        </div> 
                                         <div class="group">
                                             <label class="selected-label">已选</label>
                                             <ul class="selected-tabs">
@@ -399,7 +399,22 @@ var result = {},//最终变量
     })
 
 //获取所有数据
-$.getJSON("../mockdata/data.json",function(data){
+
+$.ajax({
+    url:'http://172.20.33.72:8863/testpc/api/getAllMapping',
+    type:'get',
+    success:function(data){
+        alert('success')
+        console.log(data);
+
+    },
+    error:function(error){
+        console.log(error)
+    }
+});
+
+$.getJSON("http://172.20.33.72:8863/testpc/api/getAllMapping",function(data){
+    alert(1);
     console.log(data);
     var result = data.result;
     var data = result.data;
@@ -410,7 +425,7 @@ $.getJSON("../mockdata/data.json",function(data){
     var column = data.column;
     var page = data.page;
     totalCarNumber = data.totalCarNumber;
-    console.log(totalCarNumber)
+    // console.log(totalCarNumber)
 
 
     // $.each(channel,function(index,item){

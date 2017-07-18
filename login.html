@@ -118,6 +118,32 @@
             alert('用户名或密码不能为空')
         }
         else{
+            var formdata =new FormData();
+            formdata.append('type',0);
+            formdata.append('username',userName);
+            formdata.append('password',password);
+            // var data = {
+            //     user:userName,
+            //     type:0,
+            //     password:password
+            // }
+            // var sendData = JSON.stringify(data);
+            // console.log(sendData);
+            $.ajax({
+                type: 'POST',
+                url:'http://192.168.70.145:8763/shiro/api/user/login',
+                data: formdata,
+                contentType: false, 
+                processData: false,
+                success:function(data){
+                    console.log(data);
+                },
+                error:function(error){
+                    console.log(error)
+                }
+
+            })
+
             if($('#remember').is(':checked')){
                 if(window.localStorage){
                     var storage = window.localStorage;
@@ -131,7 +157,7 @@
                 }
             }
         }
-        window.location.href = 'pages/autoreportdemo-mis.html'
+        // window.location.href = 'pages/autoreportdemo-mis.html'
     })
 })(jQuery);
 
